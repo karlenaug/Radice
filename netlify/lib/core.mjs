@@ -20,7 +20,7 @@ export const check = (d, pw) => {
   if (env && same(pw, env)) return true;
   return !!(d.cfg.ph && d.cfg.salt && same(hash(pw, d.cfg.salt), d.cfg.ph));
 };
-export const goodPass = np => typeof np === 'string' && np.length >= 10 && /[a-z]/i.test(np) && /\d/.test(np);
+export const goodPass = np => typeof np === 'string' && np.length >= 8 && np.length <= 200;
 
 // ---- sesiones firmadas (sin estado), duran 4 horas ----
 async function secret() {

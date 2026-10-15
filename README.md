@@ -20,7 +20,7 @@ netlify.toml             Configuración de Netlify
 
 ## Panel de administrador
 - Entrá a `https://tu-sitio.netlify.app/admin` (o 5 clics sobre el logo del pie).
-- Contraseña inicial: la que te pasaron al configurar el sitio. Cambiala desde el panel (campo "Nueva contraseña", 10 o más caracteres con letras y números).
+- Contraseña inicial: la que te pasaron al configurar el sitio. Cambiala desde el panel (campo "Nueva contraseña", 8 caracteres o más, la que quieras).
 - **Recuperar el acceso:** en Netlify, Site configuration → Environment variables, creá `ADMIN_PASSWORD` con la clave que quieras y volvé a desplegar. Esa clave siempre permite entrar.
 - Seguridad: la contraseña se verifica en el servidor, hay bloqueo de 15 minutos tras 5 intentos fallidos y las sesiones vencen a las 4 horas (el panel se cierra solo tras 30 minutos sin uso).
 
