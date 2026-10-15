@@ -2,6 +2,8 @@
   "name": "radice",
   "version": "1.0.0",
   "private": true,
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=16" }
+  "type": "module",
+  "scripts": { "dev": "netlify dev" },
+  "dependencies": { "@netlify/blobs": "^11.1.4" },
+  "engines": { "node": ">=20" }
 }

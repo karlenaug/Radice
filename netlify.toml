@@ -1,9 +1,12 @@
-# Configuración para Netlify (sitio estático: se publica solo la carpeta public)
+# Configuración para Netlify: la web está en /public y el login, guardado y fotos en /netlify/functions
 [build]
   publish = "public"
   command = ""
 
-# Mismas cabeceras de seguridad que usa server.js
+[functions]
+  node_bundler = "esbuild"
+
+# Cabeceras de seguridad
 [[headers]]
   for = "/*"
   [headers.values]
