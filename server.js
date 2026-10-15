@@ -75,7 +75,7 @@ http.createServer(async (req, res) => {
     }
 
     if (req.method !== 'GET' && req.method !== 'HEAD') return send(405, '{}');
-    const f = path.normalize(path.join(ROOT, p === '/' ? 'index.html' : p));
+    const f = path.normalize(path.join(ROOT, p === '/' || /^\/admin\/?$/.test(p) ? 'index.html' : p));
     if (!f.startsWith(ROOT + path.sep) || !fs.existsSync(f) || !fs.statSync(f).isFile()) return send(404, 'No encontrado', 'text/plain');
     const ext = path.extname(f).toLowerCase(); if (!MIME[ext]) return send(404, 'No encontrado', 'text/plain');
     send(200, fs.readFileSync(f), MIME[ext], { 'Cache-Control': /^\/(img|uploads)\//.test(p) ? 'public, max-age=86400' : 'no-cache' });

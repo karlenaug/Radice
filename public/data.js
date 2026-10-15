@@ -5,8 +5,9 @@ window.RADICE_DATA={
   "ig": "radice.materia",
   "ch": "both",
   "msg": "¡Hola Radice! Quiero consultar por este producto: {producto}. Acá está la foto: {link}",
-  "ph": "031529303c18c0e42c01b1b521d5f86bad2eb03d991cead50f24ed8c0e5637e6",
-  "msg2": "¡Hola Radice! Quería hacerles una consulta."
+  "ph": "6b69f1718af52a818d0149263f80f0ad5dbd1c2c51a73838283ae8ea9bcf787a",
+  "msg2": "¡Hola Radice! Quería hacerles una consulta.",
+  "salt": "6462c06de92d9aff4f6d57134a57d3a6"
  },
  "cats": [
   "Maceteros",

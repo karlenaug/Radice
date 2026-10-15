@@ -17,3 +17,10 @@
   for = "/img/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+# El panel de administrador se abre en /admin
+[[redirects]]
+  from = "/admin"
+  to = "/index.html"
+  status = 200
+  force = true
