@@ -27,6 +27,7 @@ En el servidor la contraseña se verifica del lado del servidor, hay límite de 
 
 ## Opción B: sin servidor (hosting estático)
 Subí solo la carpeta `public` a Netlify, GitHub Pages o similar (o abrí `index.html` con doble clic).
+En Netlify con el repositorio vinculado no hace falta configurar nada: `netlify.toml` ya indica que se publica `public` sin paso de build.
 El catálogo y las páginas funcionan igual, pero el panel no puede guardar para todos los visitantes:
 al tocar "Guardar cambios" se guarda en tu navegador y se descarga un `data.js` nuevo; reemplazá el `data.js` de tu hosting por ese archivo (las fotos nuevas quedan dentro de ese archivo).
 En este modo la contraseña solo se verifica en el navegador, así que no es una protección real: usá la Opción A si querés seguridad.
