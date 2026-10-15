@@ -58,7 +58,7 @@ const keep = s => OK.test(s) ? s : null;               // las fotos nuevas ya ll
 export function sane(x, old) {
   const c = x.cfg || {};
   return {
-    updated: Date.now(),
+    updated: Date.now(), homeV: 1,
     cfg: { wa: String(c.wa || '').replace(/\D/g, '').slice(0, 16), ig: String(c.ig || '').replace(/^@/, '').replace(/[^\w.]/g, '').slice(0, 30), ch: ['wa', 'ig', 'both'].includes(c.ch) ? c.ch : 'both', msg: str(c.msg, 600), msg2: str(c.msg2, 600), ph: old.cfg.ph, salt: old.cfg.salt },
     cats: [...new Set((x.cats || []).map(v => str(v, 40).trim()).filter(Boolean))].slice(0, 40),
     prods: (x.prods || []).slice(0, 300).map(p => ({ id: String(p.id).replace(/[^a-z0-9]/gi, '').slice(0, 20) || Date.now().toString(36), name: str(p.name, 80), cat: str(p.cat, 40), price: Math.min(Math.max(Number(p.price) || 0, 0), 1e9), desc: str(p.desc, 300), stock: (p.stock == null || p.stock === '' || isNaN(p.stock)) ? null : Math.min(Math.max(Math.floor(+p.stock), 0), 99999), img: keep(p.img) || 'img/placeholder.svg' })),
