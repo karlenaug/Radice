@@ -55,10 +55,11 @@ export async function saveImg(s) {
 // ---- validación de lo que llega desde el panel ----
 const str = (s, n) => String(s ?? '').replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, '').slice(0, n);
 const keep = s => OK.test(s) ? s : null;               // las fotos nuevas ya llegan subidas por /api/upload
+const stand = s => { s = s || {}; return { on: !!s.on, place: str(s.place, 80), addr: str(s.addr, 160), date: /^\d{4}-\d{2}-\d{2}$/.test(s.date) ? s.date : '', from: /^\d{2}:\d{2}$/.test(s.from) ? s.from : '', to: /^\d{2}:\d{2}$/.test(s.to) ? s.to : '' }; };
 export function sane(x, old) {
   const c = x.cfg || {};
   return {
-    updated: Date.now(), homeV: 1,
+    updated: Date.now(), homeV: 1, stand: stand(x.stand),
     cfg: { wa: String(c.wa || '').replace(/\D/g, '').slice(0, 16), ig: String(c.ig || '').replace(/^@/, '').replace(/[^\w.]/g, '').slice(0, 30), ch: ['wa', 'ig', 'both'].includes(c.ch) ? c.ch : 'both', msg: str(c.msg, 600), msg2: str(c.msg2, 600), ph: old.cfg.ph, salt: old.cfg.salt },
     cats: [...new Set((x.cats || []).map(v => str(v, 40).trim()).filter(Boolean))].slice(0, 40),
     prods: (x.prods || []).slice(0, 300).map(p => ({ id: String(p.id).replace(/[^a-z0-9]/gi, '').slice(0, 20) || Date.now().toString(36), name: str(p.name, 80), cat: str(p.cat, 40), price: Math.min(Math.max(Number(p.price) || 0, 0), 1e9), desc: str(p.desc, 300), stock: (p.stock == null || p.stock === '' || isNaN(p.stock)) ? null : Math.min(Math.max(Math.floor(+p.stock), 0), 99999), img: keep(p.img) || 'img/placeholder.svg' })),
