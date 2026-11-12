@@ -1,5 +1,5 @@
 // POST /api/save: guarda los cambios del panel
-import { authed, load, write, sane, setPass, goodPass, prune, json, readJson } from '../lib/core.mjs';
+import { authed, load, write, sane, setPass, goodPass, prune, rotateSecret, newToken, json, readJson } from '../lib/core.mjs';
 
 export default async req => {
   if (!(await authed(req))) return json(401, { error: 'session' });
@@ -8,6 +8,7 @@ export default async req => {
     if (np) { if (!goodPass(np)) return json(400, { error: 'password' }); setPass(nd, np); }
     await write(nd);
     await prune(nd).catch(() => {});
+    if (np) { await rotateSecret(); return json(200, { ok: true, token: await newToken() }); }   // contraseña nueva: se cierran las demás sesiones
     return json(200, { ok: true });
   } catch (e) { return json(400, { error: 'request' }); }
 };

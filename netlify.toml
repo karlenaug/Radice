@@ -21,6 +21,18 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Que los buscadores no indexen el panel ni la API
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # El panel de administrador se abre en /admin
 [[redirects]]
   from = "/admin"

@@ -28,6 +28,8 @@ async function secret() {
   if (!k) { k = crypto.randomBytes(32).toString('hex'); await s.set('secret', k); }
   return k;
 }
+// cambia la clave de firma: todas las sesiones abiertas dejan de servir (se usa al cambiar la contraseña)
+export const rotateSecret = () => db().set('secret', crypto.randomBytes(32).toString('hex'));
 const sign = async v => crypto.createHmac('sha256', await secret()).update(v).digest('hex');
 export const newToken = async () => { const exp = String(Date.now() + 4 * 3600e3); return exp + '.' + await sign(exp); };
 export async function authed(req) {
@@ -55,21 +57,22 @@ export async function saveImg(s) {
 // ---- validación de lo que llega desde el panel ----
 const str = (s, n) => String(s ?? '').replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, '').slice(0, n);
 const keep = s => OK.test(s) ? s : null;               // las fotos nuevas ya llegan subidas por /api/upload
+const pics = p => { const a = (Array.isArray(p.imgs) ? p.imgs : [p.img]).map(keep).filter(Boolean).slice(0, 6); return a.length ? a : ['img/placeholder.svg']; };   // hasta 6 fotos; la 1.ª es la portada
 const stand = s => { s = s || {}; return { on: !!s.on, place: str(s.place, 80), addr: str(s.addr, 160), date: /^\d{4}-\d{2}-\d{2}$/.test(s.date) ? s.date : '', from: /^\d{2}:\d{2}$/.test(s.from) ? s.from : '', to: /^\d{2}:\d{2}$/.test(s.to) ? s.to : '' }; };
 export function sane(x, old) {
   const c = x.cfg || {};
   return {
     updated: Date.now(), homeV: 1, stand: stand(x.stand),
-    cfg: { wa: String(c.wa || '').replace(/\D/g, '').slice(0, 16), ig: String(c.ig || '').replace(/^@/, '').replace(/[^\w.]/g, '').slice(0, 30), ch: ['wa', 'ig', 'both'].includes(c.ch) ? c.ch : 'both', msg: str(c.msg, 600), msg2: str(c.msg2, 600), ph: old.cfg.ph, salt: old.cfg.salt },
+    cfg: { wa: String(c.wa || '').replace(/\D/g, '').slice(0, 16), ig: String(c.ig || '').replace(/^@/, '').replace(/[^\w.]/g, '').slice(0, 30), ch: ['wa', 'ig', 'both'].includes(c.ch) ? c.ch : 'both', msg: str(c.msg, 600), msg2: str(c.msg2, 600), msgCart: str(c.msgCart, 600), ph: old.cfg.ph, salt: old.cfg.salt },
     cats: [...new Set((x.cats || []).map(v => str(v, 40).trim()).filter(Boolean))].slice(0, 40),
-    prods: (x.prods || []).slice(0, 300).map(p => ({ id: String(p.id).replace(/[^a-z0-9]/gi, '').slice(0, 20) || Date.now().toString(36), name: str(p.name, 80), cat: str(p.cat, 40), price: Math.min(Math.max(Number(p.price) || 0, 0), 1e9), desc: str(p.desc, 300), stock: (p.stock == null || p.stock === '' || isNaN(p.stock)) ? null : Math.min(Math.max(Math.floor(+p.stock), 0), 99999), img: keep(p.img) || 'img/placeholder.svg' })),
+    prods: (x.prods || []).slice(0, 300).map(p => ({ id: String(p.id).replace(/[^a-z0-9]/gi, '').slice(0, 20) || Date.now().toString(36), name: str(p.name, 80), cat: str(p.cat, 40), price: Math.min(Math.max(Number(p.price) || 0, 0), 1e9), desc: str(p.desc, 300), stock: (p.stock == null || p.stock === '' || isNaN(p.stock)) ? null : Math.min(Math.max(Math.floor(+p.stock), 0), 99999), ...(i => ({ imgs: i, img: i[0] }))(pics(p)) })),
     gallery: (x.gallery || []).map(keep).filter(Boolean).slice(0, 30)
   };
 }
 
 // borra las fotos subidas que ya no usa ningún producto ni la galería
 export async function prune(d) {
-  const used = new Set([...d.prods.map(p => p.img), ...d.gallery].filter(s => s.startsWith('uploads/')).map(s => s.slice(8)));
+  const used = new Set([...d.prods.flatMap(p => p.imgs || [p.img]), ...d.gallery].filter(s => s.startsWith('uploads/')).map(s => s.slice(8)));
   const s = imgs(), { blobs } = await s.list();
   await Promise.all(blobs.filter(b => !used.has(b.key)).map(b => s.delete(b.key)));
 }
