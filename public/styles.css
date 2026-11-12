@@ -40,7 +40,7 @@ footer{text-align:center;padding:90px 5vw 60px;border-top:1px solid var(--ln)}fo
 a.logo{display:block}nav a.cur{color:var(--ac)}
 .st{display:inline-block;font-size:12px;border:1px solid var(--ln);border-radius:20px;padding:2px 10px;margin:-4px 0 14px;color:var(--mu)}.st.z{color:#e07a5f;border-color:#e07a5f}.st.ok{color:var(--sg)}
 .gal{columns:3 220px;column-gap:16px}.gal img{width:100%;margin-bottom:16px;border-radius:6px 6px 40px 6px;break-inside:avoid}
-.pil{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;border-top:1px solid var(--ln)}.pil h3{font-size:34px;margin:4px 0 8px}.pil p{color:var(--mu)}.pil b{color:var(--ac);font:italic 500 22px 'Cormorant Garamond',serif}
+
 .cta{text-align:center}.cta .b{margin:6px}.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;max-width:900px}.cc{background:var(--bg2);border-radius:6px 6px 28px 28px;padding:34px;display:grid;gap:14px;justify-items:start}.cc small{color:var(--ac)}.cc h3{font-size:clamp(26px,3.4vw,42px);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.ct{display:flex;align-items:center;gap:12px}.ic{width:46px;height:46px;border-radius:50%;border:1px solid var(--ln);color:var(--ac);display:grid;place-items:center;flex:none}.ic svg{display:block}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 #puesto .cdw{margin:6px 0 26px}.cl{color:var(--mu);font-size:18px}.cb{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}.cb div{background:var(--bg2);border:1px solid var(--ln);border-radius:14px;padding:14px 12px;min-width:86px;text-align:center}.cb b{font-size:clamp(36px,6vw,58px);display:block;line-height:1;color:var(--ac)}.cb small{color:var(--mu);font-size:13px}
@@ -66,7 +66,7 @@ body[data-pg=pedido] #p-pedido{display:block;animation:up .6s both}
 .rv{opacity:0;translate:0 40px;filter:blur(6px);transition:opacity .9s ease,translate 1s cubic-bezier(.2,.7,.2,1),filter .9s ease}.rv.in{opacity:1;translate:none;filter:none}
 @media(max-width:820px){.ab2{gap:28px}.cc{padding:26px}}
 /* números alineados (Cormorant trae por defecto números de estilo antiguo, unos más altos que otros) */
-h1,h2,h3,.ser,.pr,.cb b,.mi b,.pil b,.mq div,.cc h3,.cit b{font-variant-numeric:lining-nums}
+h1,h2,h3,.ser,.pr,.cb b,.mi b,.mq div,.cc h3,.cit b{font-variant-numeric:lining-nums}
 /* tarjetas del catálogo: título, precio, stock y botones a la misma altura en cada fila */
 .cd{display:flex;flex-direction:column}.ci{flex:1;display:flex;flex-direction:column}.ci h3{min-height:2.04em}.ci p{min-height:3.2em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.ci .st{align-self:flex-start}.st.sp{visibility:hidden}.ci .bt{margin-top:auto}
 #grid.nd .ci p{display:none}
